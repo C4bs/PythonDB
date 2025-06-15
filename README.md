@@ -1,2 +1,2 @@
 # PythonDB
-Aplicações CRUD com Java, Python e Banco de Dados
+Aplicações CRUD com Python e Banco de Dados
