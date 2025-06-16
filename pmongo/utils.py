@@ -67,13 +67,41 @@ def atualizar():
     """
     Função para atualizar um produto
     """
-    
+    conn = conectar()
+    db = conn.pmongo
+
+    _id = input('Informe o ID: ')
+    nome = input('Informe o novo nome do produto: ')
+    preco = float(input('Informe o novo preço do produto: '))
+    estoque = int(input('Informe o novo estoque do produto: '))
+
+    try:
+        if db.produtos.count_documents({}) > 0:
+            res = db.produtos.update_one(
+                {"_id": objectid(_id)},
+                {
+                    "$set": {
+                        "nome": nome,
+                        "preco": preco,
+                        "estoque": estoque
+                    }
+                }
+            )
+            if res.modified_count == 1:
+                print(f"O produto {nome} foi atualizado com sucesso!")
+            else:
+                print('Não foi possível atualizar o produto.')
+        else:
+            print('Não existem documentos para serem atualizados.')
+    except  errors.PyMongoError as e:
+        print(f"Erro ao acessar o banco de dados. {e}")
+    desconectar(conn)
 
 def deletar():
     """
     Função para deletar um produto
     """  
-    
+
 
 def menu():
     """
