@@ -28,10 +28,10 @@ def listar():
             print("Listando produtos...")
             print('--------------------------------')
             for produto in produtos:
-                print(f"ID: {produtos['_id']}")
-                print(f"Produto: {produtos['nome']}")
-                print(f"Preço: {produtos['preco']}")
-                print(f"Estoque: {produtos['estoque']}")
+                print(f"ID: {produto['_id']}")
+                print(f"Produto: {produto['nome']}")
+                print(f"Preço: {produto['preco']}")
+                print(f"Estoque: {produto['estoque']}")
                 print('--------------------------------')
         else:
             print('Não existem produtos cadastrados.')
