@@ -43,7 +43,25 @@ def inserir():
     """
     Função para inserir um produto
     """  
-   
+    conn = conectar()
+    db = conn.pmongo
+
+    nome =  input('Informe o nome do produto: ')
+    preco = float(input('Informe o preço do produto: '))
+    estoque = int(input('Informe o estoque do produto: '))
+
+    try:
+        db.produtos.insert_one(
+            {
+            "nome": nome,
+            "preco": preco,
+            "estoque": estoque
+            }
+        )
+        print(f"O produto {nome} foi inserido com sucesso!")
+    except errors.PyMongoError as e:
+        print(f"Erro em inserir o produto. {e}")
+    desconectar(conn)
 
 def atualizar():
     """
