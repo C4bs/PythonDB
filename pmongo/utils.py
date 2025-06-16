@@ -1,5 +1,5 @@
 from pymongo import MongoClient, errors
-from bson import objectid
+from bson.objectid import ObjectId
 
 def conectar():
     """
@@ -78,7 +78,7 @@ def atualizar():
     try:
         if db.produtos.count_documents({}) > 0:
             res = db.produtos.update_one(
-                {"_id": objectid(_id)},
+                {"_id": ObjectId(_id)},
                 {
                     "$set": {
                         "nome": nome,
@@ -110,7 +110,7 @@ def deletar():
         if db.produtos.count_documents({}) > 0:
             res = db.produtos.delete_one(
                 {
-                    "_id": objectid(_id)
+                    "_id": ObjectId(_id)
                 }
             )
             if res.deleted_count > 0:
