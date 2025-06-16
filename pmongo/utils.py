@@ -8,11 +8,12 @@ def conectar():
     conn = MongoClient('localhost', 27017)
     return conn
 
-def desconectar():
+def desconectar(conn):
     """ 
     Função para desconectar do servidor.
     """
-
+    if conn:
+        conn.close()
 
 def listar():
     """
