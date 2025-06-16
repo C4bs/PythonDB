@@ -1,12 +1,14 @@
-
+from pymongo import MongoClient, errors
+from bson import objectid
 
 def conectar():
     """
     Função para conectar ao servidor
     """
+    conn = MongoClient('localhost', 27017)
+    return conn
 
-
-def desconectar(conn):
+def desconectar():
     """ 
     Função para desconectar do servidor.
     """
