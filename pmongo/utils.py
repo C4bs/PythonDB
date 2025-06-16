@@ -101,7 +101,27 @@ def deletar():
     """
     Função para deletar um produto
     """  
+    conn = conectar()
+    db = conn.pmongo
 
+    _id = input('Informe o ID do produto a ser deletado: ')
+
+    try:
+        if db.produtos.count_documents({}) > 0:
+            res = db.produtos.delete_one(
+                {
+                    "_id": objectid(_id)
+                }
+            )
+            if res.deleted_count > 0:
+                print('O produto foi deletado com sucesso!')
+            else:
+                print('Não foi possível deletar o produto.')
+        else:
+            print('Não existem produtos para serem deletados.')
+    except errors.PyMongoError as e:
+        print(f"Erro ao acessar o banco de dados: {e}")
+    desconectar(conn)
 
 def menu():
     """
