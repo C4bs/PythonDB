@@ -19,7 +19,25 @@ def listar():
     """
     Função para listar os produtos
     """
-   
+    conn = conectar()
+    db = conn.pmongo
+
+    try:
+        if db.produtos.count_documents({}) > 0:
+            produtos = db.produtos.find()
+            print("Listando produtos...")
+            print('--------------------------------')
+            for produto in produtos:
+                print(f"ID: {produtos['_id']}")
+                print(f"Produto: {produtos['nome']}")
+                print(f"Preço: {produtos['preco']}")
+                print(f"Estoque: {produtos['estoque']}")
+                print('--------------------------------')
+        else:
+            print('Não existem produtos cadastrados.')
+    except errors.PyMongoError as e:
+        print(f'Erro ao acessar o banco de dados: {e}')
+    desconectar(conn)
 
 def inserir():
     """
