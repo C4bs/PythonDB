@@ -1,4 +1,5 @@
 import redis
+import redis.exceptions
 
 def conectar():
     """
@@ -12,13 +13,31 @@ def desconectar(conn):
     """ 
     Função para desconectar do servidor.
     """
-    
+    conn.connection_pool.disconnect()
 
 def listar():
     """
     Função para listar os produtos
     """
-  
+    conn = conectar();
+
+    try:
+        dados = conn.keys(pattern='produtos:*')
+
+        if len(dados) > 0:
+            print('Listando produtos...')
+            print('--------------------')
+            for chaves in dados:
+                produto = conn.hgetall(chave)
+                print(f"ID: {str(chave, 'utf-8', 'ignore')}")
+                print(f"Produto: {str(produto[b'nome'], 'utf-8', 'ignore')}")
+                print(f"Preço: {str(produto[b'preco'], 'utf-8', 'ignore')}")
+                print(f"Estoque: {str(produto[b'estoque'], 'utf-8', 'ignore')}")
+        else:
+            print('Não existem produtos cadastrados.')
+    except redis.exceptions.ConnectionError as e:
+        print(f'Não foi possível listar os produtos. {e}')
+    desconectar(conn)      
 
 def inserir():
     """
