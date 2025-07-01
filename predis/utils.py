@@ -39,10 +39,13 @@ def listar():
     try:
         dados = conn.keys(pattern='produtos:*')
 
+        print(f'Dados: {dados}')
+
         if len(dados) > 0:
             print('Listando produtos...')
             print('--------------------')
-            for chaves in dados:
+            for chave in dados:
+                print(f'Chave: {chave}')
                 produto = conn.hgetall(chave)
                 print(f"ID: {str(chave, 'utf-8', 'ignore')}")
                 print(f"Produto: {str(produto[b'nome'], 'utf-8', 'ignore')}")
@@ -71,13 +74,42 @@ def atualizar():
     """
     Função para atualizar um produto
     """
-    
+    conn = conectar()
+
+    chave = input('Informe a chave do produto: ')
+    nome = input('Informe o nome do produto: ')
+    preco = input('Informe o preço: ')
+    estoque = input('Informe o estoque: ')
+
+    produto = {"nome": nome, "preco": preco, "estoque": estoque}
+
+    try:
+        res = conn.hmset(chave, produto)
+
+        if res:
+            print(f'O produto {nome} foi atualizado com sucesso.')
+    except redis.exceptions.ConnectionError as e:
+        print(f'Não foi possível atualizar o produto.')
+    desconectar()
 
 def deletar():
     """
     Função para deletar um produto
     """  
-    
+    conn = conectar()
+
+    chave = input('Informe a chave do produto: ')
+
+    try:
+        res = conn.delete(chave)
+
+        if res == 1:
+            print('O produto foi deletado com sucesso.')
+        else:
+            print('Não existe produto com a chave informada.')
+    except redis.exceptions.ConnectionError as e:
+        print(f'Erro ao conectar ao Redis: {e}')
+    desconectar(conn)
 
 def menu():
     """
