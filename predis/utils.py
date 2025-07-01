@@ -1,6 +1,21 @@
 import redis
 import redis.exceptions
 
+def gera_id():
+    try:
+        conn = conectar()
+
+        chave = conn.get('chave')
+
+        if chave:
+            chave = conn.incr('chave')
+            return chave
+        else:
+            conn.set('chave', 1)
+            return 1
+    except redis.exceptions.ConnectionError as e:
+        print(f'Não foi possível gerar a chave: {e}')
+
 def conectar():
     """
     Função para conectar ao servidor
@@ -19,7 +34,7 @@ def listar():
     """
     Função para listar os produtos
     """
-    conn = conectar();
+    conn = conectar()
 
     try:
         dados = conn.keys(pattern='produtos:*')
@@ -43,7 +58,14 @@ def inserir():
     """
     Função para inserir um produto
     """  
-    
+    conn = conectar()
+
+    nome = input('Informe o nome do produto: ')
+    preco = float(input('Informe o preço do produto: '))
+    estoque = int(input('Informe o estoque do produto: '))
+
+    produto = {"nome": nome, "preco": preco, "estoque": estoque}
+    chave = f'produtos: (gera_id())'
 
 def atualizar():
     """
