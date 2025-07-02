@@ -108,7 +108,18 @@ def deletar():
     """
     Função para deletar um produto
     """  
-    
+    db = conectar()
+
+    if db:
+        _id = input('Informe o ID do produto a ser deletado: ')
+
+        try:
+            db.delete[_id]
+            print('O produto foi deletado com sucesso.')
+        except couchdb.http.ResourceNotFound as e:
+            print(f'Não foi possível deletar o produto: {e}')
+    else:
+        print('Erro ao conectar ao servidor.')
 
 def menu():
     """
