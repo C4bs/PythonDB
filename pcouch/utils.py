@@ -5,6 +5,27 @@ def conectar():
     """
     Função para conectar ao servidor
     """
+    user = 'admin' # Colocar aqui o usuário criado para o banco
+    password = 'admin' # Colocar aqui a senha do usuário criado no banco
+    conn = couchdb.Server(f'http://{user}:{password}@localhost:5984')
+
+    banco = 'pcouchdb'
+
+    if banco in conn:
+        db = conn[banco]
+
+        return db
+    else:
+        try:
+            db = conn.create[banco]
+
+            return db
+        except socket.gaierror as e:
+            print(f'Erro ao conectar ao servidor: {e}')
+        except couchdb.http.Unauthorized as f:
+            print(f'Você não tem permissão ao acesso: {f}')
+        except ConnectionRefusedError as g:
+            print(f'Não foi possível conectar ao servidor: {g}')
 
 
 def desconectar():
