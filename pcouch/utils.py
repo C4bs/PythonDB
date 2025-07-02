@@ -38,7 +38,23 @@ def listar():
     """
     Função para listar os produtos
     """
-    
+    db = conectar()
+
+    if db:
+        if db.info(['doc_count']) > 0:
+            print('Listando produtos...')
+            print('--------------------')
+            for doc in db:
+                print(f'ID: {db[doc]['_id']}')
+                print(f'Rev: {db[doc]['_id']}')
+                print(f'Produto: {db[doc]['_id']}')
+                print(f'Preço: {db[doc]['_id']}')
+                print(f'Estoque: {db[doc]['_id']}')
+                print('--------------------')
+        else:
+            print('Não existem produtos cadastrados.')
+    else:
+        print('Não foi possível conectar com o servidor.')
 
 def inserir():
     """
