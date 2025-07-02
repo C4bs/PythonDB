@@ -60,7 +60,23 @@ def inserir():
     """
     Função para inserir um produto
     """  
-    
+    db = conectar()
+      
+    if db:
+        nome = input("Informe o nome do produto: ")
+        preco = float(input('Informe o preço do produto: '))
+        estoque = int(input('Informe o estoque do produto: '))
+
+        produto = {"nome": nome, "preco": preco, "estoque": estoque}
+
+        res = db.save(produto)
+
+        if res:
+            print(f'O produto {nome} foi inserido com sucesso.')
+        else:
+            print('O produto não foi salvo.')
+    else:
+        print('Não foi possível conectar ao servidor.')
 
 def atualizar():
     """
