@@ -6,7 +6,7 @@ def conectar():
     """
 
 
-def desconectar(conn):
+def desconectar():
     """ 
     Função para desconectar do servidor.
     """
