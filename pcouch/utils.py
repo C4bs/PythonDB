@@ -82,7 +82,27 @@ def atualizar():
     """
     Função para atualizar um produto
     """
-    
+    db = conectar()
+
+    if db:
+        chave = input('Informe o ID do produto: ')
+
+        try:
+            doc = db[chave]
+
+            nome = input('Informe o novo nome do produto: ')
+            preco = float(input('Informe o novo preço do produto: '))
+            estoque = int(input('Informe o novo estoque do produto: '))
+
+            doc['nome'] = nome
+            doc['preco'] = preco
+            doc['estoque'] = estoque
+            db[doc.id] = doc
+            print(f'O produto {nome} foi atualizado com sucesso.')
+        except couchdb.http.ResourceNotFound as e:
+            print(f'Produto não encontrado: {e}')
+    else:
+        print('Não foi possível conectar ao servidor.')
 
 def deletar():
     """
